@@ -24,14 +24,9 @@ namespace Vls.Abp.Nats
             return _jsonSerializer.Deserialize(type, Encoding.UTF8.GetString(value));
         }
 
-        public byte[] Serialize(object[] objs)
+        public T Deserialize<T>(byte[] value)
         {
-            return Encoding.UTF8.GetBytes(_jsonSerializer.Serialize(objs));
-        }
-
-        public object[] Deserialize(byte[] value, Type[] types)
-        {
-            return _jsonSerializer.Deserialize()
+            return _jsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(value));
         }
     }
 }

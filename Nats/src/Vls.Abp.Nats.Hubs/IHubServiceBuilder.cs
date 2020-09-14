@@ -11,8 +11,7 @@ namespace Vls.Abp.Nats.Hubs
         HubServiceBuilder AddContractHandler<TContract, TImplementation>(Func<IServiceProvider, ObjectFactory> factory = null)
             where TContract : class
             where TImplementation : class, TContract;
-        HubServiceBuilder AddContractHandler<TContract, TImplementation>(INatsSerializer serializer, Func<IServiceProvider, ObjectFactory> factory = null)
-            where TContract : class
-            where TImplementation : class, TContract;
+        HubServiceBuilder AddContractHandler(Type contract, Type implementation, Func<IServiceProvider, ObjectFactory> factory = null);
+        HubService Build();
     }
 }

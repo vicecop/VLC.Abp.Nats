@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using NATS.Client;
 using System;
 using System.Collections.Generic;
@@ -9,17 +8,15 @@ namespace Vls.Abp.Nats.Hubs
     public class HubServiceBuilder : IHubServiceBuilder
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly HubServiceFactory _serviceFactory;
 
         private readonly HubServiceOptions _serviceOptions;
 
         private List<HubContractHandler> _contractHandlers;
         private EventHandler<MsgHandlerEventArgs> _eventHandler;
 
-        public HubServiceBuilder(IServiceProvider serviceProvider, HubServiceFactory serviceFactory)
+        public HubServiceBuilder(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-            _serviceFactory = serviceFactory ?? throw new ArgumentNullException(nameof(serviceFactory));
 
             _serviceOptions = HubServiceOptions.Default;
             _contractHandlers = new List<HubContractHandler>();
@@ -41,19 +38,20 @@ namespace Vls.Abp.Nats.Hubs
             where TContract : class
             where TImplementation : class, TContract
         {
-            var serializer = _serviceProvider.GetRequiredService<INatsSerializer>();
-            return AddContractHandler<TContract, TImplementation>(serializer, factory);
+            return AddContractHandler(typeof(TContract), typeof(TImplementation), factory);
         }
 
-        public HubServiceBuilder AddContractHandler<TContract, TImplementation>(INatsSerializer serializer, Func<IServiceProvider, ObjectFactory> factory)
-            where TContract : class
-            where TImplementation : class, TContract
+        public HubServiceBuilder AddContractHandler(Type contract, Type implementation, Func<IServiceProvider, ObjectFactory> factory = null)
         {
-            var contractImplFactory = factory != null ? factory.Invoke(_serviceProvider) :
-                ActivatorUtilities.CreateFactory(typeof(TImplementation), Array.Empty<Type>());
+            if (!contract.IsAssignableFrom(implementation))
+                throw new ArgumentException("Provided implementation does not inherit contract");
 
-            var handlerLogger = _serviceProvider.GetService<ILogger<HubContractHandler>>();
-            var handler = new HubContractHandler(handlerLogger, _serviceProvider, serializer, typeof(TContract), _serviceOptions.ServiceUid, contractImplFactory);
+            var contractImplFactory = factory != null ? 
+                factory.Invoke(_serviceProvider) :
+                ActivatorUtilities.CreateFactory(implementation, Array.Empty<Type>());
+
+            var handler = ActivatorUtilities.CreateInstance<HubContractHandler>(_serviceProvider, contract, _serviceOptions.ServiceUid, contractImplFactory);
+
             _contractHandlers.Add(handler);
 
             return this;
@@ -61,7 +59,7 @@ namespace Vls.Abp.Nats.Hubs
 
         public HubService Build()
         {
-            return _serviceFactory.Create(_serviceOptions, _contractHandlers, _eventHandler);
+            return ActivatorUtilities.CreateInstance<HubService>(_serviceProvider, _contractHandlers, _eventHandler);
         }
     }
 }

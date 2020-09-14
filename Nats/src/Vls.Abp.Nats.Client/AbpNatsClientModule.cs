@@ -1,8 +1,11 @@
-﻿using Volo.Abp.Modularity;
+﻿using Volo.Abp.Castle;
+using Volo.Abp.Modularity;
 
 namespace Vls.Abp.Nats.Client
 {
-    [DependsOn(typeof(AbpNatsMqModule))]
+    [DependsOn(
+        typeof(AbpNatsMqModule), 
+        typeof(AbpCastleCoreModule))]
     public class AbpNatsClientModule : AbpModule
     {
 

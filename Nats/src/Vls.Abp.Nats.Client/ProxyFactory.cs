@@ -1,80 +1,90 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Options;
 using NATS.Client;
-using SexyProxy;
 using System;
-using System.Buffers;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.DynamicProxy;
 
 namespace Vls.Abp.Nats.Client
 {
-    public sealed class ProxyFactory : ITransientDependency
+    public sealed class NatsProxyInterceptor<TService> : AbpInterceptor, ITransientDependency
     {
+        private readonly ProxyOptions _options;
         private readonly IServiceProvider _serviceProvider;
-        private readonly ConnectionFactory _connectionFactory;
+        private readonly NatsMqConnectionManager _connectionManager;
 
-        public ProxyFactory(IServiceProvider serviceProvider, ConnectionFactory connectionFactory)
+        private readonly INatsSerializer _serializer;
+
+        private readonly static MethodInfo _genericInterceptAsyncMethod;
+
+        static NatsProxyInterceptor()
         {
-            _serviceProvider = serviceProvider;
-            _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
+            _genericInterceptAsyncMethod = typeof(NatsProxyInterceptor<TService>)
+                .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
+                .First(m => m.Name == nameof(MakeRequestAndGetResultAsync) && m.IsGenericMethodDefinition);
         }
 
-        public T Create<T>(INatsSerializer serializer, ProxyOptions options)
-            where T : class, IDisposable
+        public NatsProxyInterceptor(IOptions<ProxyOptions> options, IServiceProvider serviceProvider, NatsMqConnectionManager connectionManager, INatsSerializer serializer)
         {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
+            _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+            _connectionManager = connectionManager ?? throw new ArgumentNullException(nameof(connectionManager));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+        }
 
-            var connection = _connectionFactory.CreateConnection(options.ConnectionString);
-            var arrayPool = ArrayPool<byte>.Shared;
-
-            return Proxy.CreateProxy<T>(async invocation =>
+        public override async Task InterceptAsync(IAbpMethodInvocation invocation)
+        {
+            if (invocation.Method.ReturnType.GenericTypeArguments.IsNullOrEmpty())
             {
-                if (invocation.Method.Name == "Dispose")
-                {
-                    connection.Close();
-                    return null;
-                }
+                await MakeRequestAsync(invocation);
+            }
+            else
+            {
+                var result = (Task)_genericInterceptAsyncMethod
+                    .MakeGenericMethod(invocation.Method.ReturnType.GenericTypeArguments[0])
+                    .Invoke(this, new object[] { invocation });
 
-                var parameters = invocation.Method.GetParameters();
-
-                var argBytes = serializer.Serialize(invocation.Arguments);
-                var subject = $"{options.ServiceUid}.{typeof(T).Name}.{invocation.Method.Name}";
-
-                var response = await connection.RequestAsync(subject, argBytes, options.TimeoutMs);
-
-                if (invocation.Method.ReturnType == typeof(void))
-                    return null;
-
-                Type type;
-
-                if (invocation.HasFlag(InvocationFlags.Async))
-                {
-                    if (invocation.Method.ReturnType.IsGenericType)
-                    {
-                        type = invocation.Method.ReturnType.GetGenericArguments().Single();
-                    }
-                    else
-                    {
-                        type = typeof(object);
-                    }
-                }
-                else
-                {
-                    type = invocation.Method.ReturnType;
-                }
-
-                var result = serializer.Deserialize(response.Data, type);
-
-                return result;
-            }, asyncMode: AsyncInvocationMode.Wait);
+                invocation.ReturnValue = await GetResultAsync(
+                    result,
+                    invocation.Method.ReturnType.GetGenericArguments()[0]
+                );
+            }
         }
 
-        public T Create<T>(ProxyOptions options)
-            where T : class, IDisposable
+        private async Task<T> MakeRequestAndGetResultAsync<T>(IAbpMethodInvocation invocation)
         {
-            var serializer = _serviceProvider.GetRequiredService<INatsSerializer>();
-            return Create<T>(serializer, options);
+            var response = await MakeRequestAsync(invocation);
+            return _serializer.Deserialize<T>(response.Data);
+        }
+
+        private async Task<Msg> MakeRequestAsync(IAbpMethodInvocation invocation)
+        {
+            var connection = _connectionManager.Connection;
+
+            if (invocation.Method.Name == "Dispose")
+            {
+                connection.Close();
+                return null;
+            }
+
+            var argBytes = _serializer.Serialize(invocation.Arguments);
+            var subject = $"{_options.ServiceUid}.{typeof(TService).Name}.{invocation.Method.Name}";
+
+            var response = await connection.RequestAsync(subject, argBytes, 1);
+
+            return response;
+        }
+
+        private async Task<object> GetResultAsync(Task task, Type resultType)
+        {
+            await task;
+            return typeof(Task<>)
+                .MakeGenericType(resultType)
+                .GetProperty(nameof(Task<object>.Result), BindingFlags.Instance | BindingFlags.Public)
+                .GetValue(task);
         }
     }
 }

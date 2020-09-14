@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NATS.Client;
 using System;
 using System.Collections.Generic;
@@ -20,15 +21,14 @@ namespace Vls.Abp.Nats.Hubs
 
         public EventHandler<MsgHandlerEventArgs> MsgHandler { get; }
 
-        public HubService(IServiceProvider serviceProvider, IEnumerable<HubContractHandler> contractHandlers,
-            HubServiceOptions options, EventHandler<MsgHandlerEventArgs> eventHandler = null)
+        internal HubService(IOptions<HubServiceOptions> options, IServiceProvider serviceProvider,
+            IEnumerable<HubContractHandler> contractHandlers, EventHandler<MsgHandlerEventArgs> eventHandler = null)
         {
             _serviceProvider = serviceProvider;
             _connectionFactory = _serviceProvider.GetRequiredService<ConnectionFactory>();
             _contractHandlers = contractHandlers ?? throw new ArgumentNullException(nameof(contractHandlers));
 
-            ServiceUid = options?.ServiceUid ?? throw new ArgumentNullException(nameof(ServiceUid));
-            ConnectionString = options?.ConnectionString ?? throw new ArgumentNullException(nameof(ConnectionString));
+            ServiceUid = options?.Value?.ServiceUid ?? throw new ArgumentNullException(nameof(ServiceUid));
 
             MsgHandler = eventHandler;
         }
