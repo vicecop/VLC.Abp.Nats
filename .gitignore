@@ -3,3 +3,18 @@
 ################################################################################
 
 /.vs
+/Nats/.vs/Nats
+/Nats/src/Vlc.Abp.EventBus.Nats/bin/Debug/netstandard2.0
+/Nats/src/Vlc.Abp.EventBus.Nats/obj
+/Nats/src/Vlc.Abp.Nats/bin/Debug/netstandard2.0
+/Nats/src/Vlc.Abp.Nats/obj
+/Nats/src/Vlc.Abp.Nats.Client/obj
+/Nats/src/Vlc.Abp.Nats.Hubs/obj
+/Nats/src/Vls.Abp.EventBus.Nats/bin/Debug/netstandard2.0
+/Nats/src/Vls.Abp.EventBus.Nats/obj
+/Nats/src/Vls.Abp.Nats/bin/Debug/netstandard2.0
+/Nats/src/Vls.Abp.Nats/obj
+/Nats/src/Vls.Abp.Nats.Client/bin/Debug
+/Nats/src/Vls.Abp.Nats.Client/obj
+/Nats/src/Vls.Abp.Nats.Hubs/bin/Debug/netstandard2.0
+/Nats/src/Vls.Abp.Nats.Hubs/obj
