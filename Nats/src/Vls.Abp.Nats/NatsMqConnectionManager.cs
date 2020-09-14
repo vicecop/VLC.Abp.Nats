@@ -2,36 +2,11 @@
 using NATS.Client;
 using System;
 
-namespace VLC.Abp.Nats
+namespace Vls.Abp.Nats
 {
     public interface INatsMqConnectionManager
     {
         IConnection Connection { get; }
-    }
-
-    public class NatsMqSubjectObserver : IObserver<Msg>
-    {
-        private readonly NatsMqConnectionManager _connectionManager;
-
-        public NatsMqSubjectObserver(NatsMqConnectionManager connectionManager)
-        {
-            _connectionManager = connectionManager;
-        }
-
-        public void OnCompleted()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnError(Exception error)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnNext(Msg value)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public sealed class NatsMqConnectionManager : INatsMqConnectionManager, IDisposable
@@ -46,7 +21,7 @@ namespace VLC.Abp.Nats
         {
             if (options is null || options.Value is null)
             {
-                throw new System.ArgumentNullException(nameof(options));
+                throw new ArgumentNullException(nameof(options));
             }
 
             _connectionFactory = new ConnectionFactory();

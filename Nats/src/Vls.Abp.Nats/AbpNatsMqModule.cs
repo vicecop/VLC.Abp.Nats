@@ -4,14 +4,8 @@ using Volo.Abp.Json;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
 
-namespace VLC.Abp.Nats
+namespace Vls.Abp.Nats
 {
-    public class AbpNatsMqOptions
-    {
-        public string Url { get; set; }
-        public int ConnectionTimeout { get; set; }
-    }
-
     [DependsOn(
         typeof(AbpJsonModule),
         typeof(AbpThreadingModule)

@@ -1,4 +1,4 @@
-﻿namespace NATS.RPC.Proxy
+﻿namespace Vls.Abp.Nats.Client
 {
     public class ProxyOptions
     {

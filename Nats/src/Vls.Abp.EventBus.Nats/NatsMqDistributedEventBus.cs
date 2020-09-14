@@ -6,7 +6,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VLC.Abp.Nats;
 using Vls.Abp.Nats;
 using Volo.Abp;
 using Volo.Abp.DependencyInjection;
@@ -14,7 +13,7 @@ using Volo.Abp.EventBus;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Threading;
 
-namespace Vlc.Abp.EventBus.Nats
+namespace Vls.Abp.EventBus.Nats
 {
     [Dependency(ReplaceServices = true)]
     [ExposeServices(typeof(IDistributedEventBus), typeof(NatsMqDistributedEventBus))]

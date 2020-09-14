@@ -4,11 +4,11 @@ using SexyProxy;
 using System;
 using System.Buffers;
 using System.Linq;
-using Vls.Abp.Nats;
+using Volo.Abp.DependencyInjection;
 
-namespace NATS.RPC.Proxy
+namespace Vls.Abp.Nats.Client
 {
-    public sealed class ProxyFactory
+    public sealed class ProxyFactory : ITransientDependency
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ConnectionFactory _connectionFactory;
@@ -28,7 +28,7 @@ namespace NATS.RPC.Proxy
             var connection = _connectionFactory.CreateConnection(options.ConnectionString);
             var arrayPool = ArrayPool<byte>.Shared;
 
-            return SexyProxy.Proxy.CreateProxy<T>(async invocation =>
+            return Proxy.CreateProxy<T>(async invocation =>
             {
                 if (invocation.Method.Name == "Dispose")
                 {

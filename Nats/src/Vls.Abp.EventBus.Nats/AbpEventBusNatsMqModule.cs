@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
-using VLC.Abp.Nats;
+using Vls.Abp.Nats;
 using Volo.Abp;
 using Volo.Abp.EventBus;
 using Volo.Abp.Modularity;
 
-namespace Vlc.Abp.EventBus.Nats
+namespace Vls.Abp.EventBus.Nats
 {
     [DependsOn(
         typeof(AbpEventBusModule),
