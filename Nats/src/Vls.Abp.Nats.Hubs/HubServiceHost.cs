@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Vls.Abp.Nats.Hubs
 {
-    public class ServiceHost : BackgroundService
+    public class HubServiceHost : BackgroundService
     {
-        private readonly IEnumerable<Service> _services;
+        private readonly IEnumerable<HubService> _services;
 
-        public ServiceHost(IEnumerable<Service> services)
+        public HubServiceHost(IEnumerable<HubService> services)
         {
             _services = services;
         }

@@ -4,11 +4,6 @@ using System;
 
 namespace Vls.Abp.Nats
 {
-    public interface INatsMqConnectionManager
-    {
-        IConnection Connection { get; }
-    }
-
     public sealed class NatsMqConnectionManager : INatsMqConnectionManager, IDisposable
     {
         private readonly ConnectionFactory _connectionFactory;

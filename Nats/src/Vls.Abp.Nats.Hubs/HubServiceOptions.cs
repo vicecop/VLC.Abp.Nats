@@ -1,8 +1,8 @@
 ﻿namespace Vls.Abp.Nats.Hubs
 {
-    public class ServiceOptions
+    public class HubServiceOptions
     {
-        public static ServiceOptions Default => new ServiceOptions()
+        public static HubServiceOptions Default => new HubServiceOptions()
         {
             ServiceUid = "default",
             ConnectionString = "nats://localhost:4222"

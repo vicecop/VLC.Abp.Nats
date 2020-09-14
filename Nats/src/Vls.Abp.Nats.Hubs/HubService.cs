@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace Vls.Abp.Nats.Hubs
 {
-    public class Service
+    public class HubService
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ConnectionFactory _connectionFactory;
-        private readonly IEnumerable<ContractHandler> _contractHandlers;
+        private readonly IEnumerable<HubContractHandler> _contractHandlers;
 
         private IConnection _connection;
         private IEnumerable<IAsyncSubscription> _subscriptions;
@@ -20,8 +20,8 @@ namespace Vls.Abp.Nats.Hubs
 
         public EventHandler<MsgHandlerEventArgs> MsgHandler { get; }
 
-        public Service(IServiceProvider serviceProvider, IEnumerable<ContractHandler> contractHandlers,
-            ServiceOptions options, EventHandler<MsgHandlerEventArgs> eventHandler = null)
+        public HubService(IServiceProvider serviceProvider, IEnumerable<HubContractHandler> contractHandlers,
+            HubServiceOptions options, EventHandler<MsgHandlerEventArgs> eventHandler = null)
         {
             _serviceProvider = serviceProvider;
             _connectionFactory = _serviceProvider.GetRequiredService<ConnectionFactory>();

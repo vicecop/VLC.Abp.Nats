@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Vls.Abp.Nats.Hubs
 {
-    public class ContractHandler
+    public class HubContractHandler
     {
         private readonly ILogger _logger;
 
@@ -23,7 +23,7 @@ namespace Vls.Abp.Nats.Hubs
 
         private INatsSerializer _serializer;
 
-        public ContractHandler(ILogger<ContractHandler> logger, IServiceProvider serviceProvider,
+        public HubContractHandler(ILogger<HubContractHandler> logger, IServiceProvider serviceProvider,
             INatsSerializer serializer, Type contractType,
             string baseRoute, ObjectFactory contractImplFactory)
         {
@@ -32,7 +32,9 @@ namespace Vls.Abp.Nats.Hubs
 
             ContractType = contractType ?? throw new ArgumentNullException(nameof(contractType));
             BaseRoute = baseRoute ?? throw new ArgumentNullException(nameof(baseRoute));
-            HandlerRoute = $"{BaseRoute}.{ContractType.Name}";
+            HandlerRoute = BaseRoute.IsNullOrEmpty() ? 
+                $"{ContractType.Name}" : 
+                $"{BaseRoute}.{ContractType.Name}";
 
             _contractImplFactory = contractImplFactory ?? throw new ArgumentNullException(nameof(contractImplFactory));
 
@@ -64,7 +66,7 @@ namespace Vls.Abp.Nats.Hubs
                             {
                                 var task = (Task)result;
 
-                                await task;
+                                await task.ConfigureAwait(false);
 
                                 var prop = method.ReturnType.GetProperty("Result");
                                 result = prop?.GetValue(task);

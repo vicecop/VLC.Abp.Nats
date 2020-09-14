@@ -4,19 +4,19 @@ using System.Collections.Generic;
 
 namespace Vls.Abp.Nats.Hubs
 {
-    public class ServiceFactory
+    public class HubServiceFactory
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public ServiceFactory(IServiceProvider serviceProvider)
+        public HubServiceFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
-        public Service Create(ServiceOptions options, IEnumerable<ContractHandler> contractHandlers,
+        public HubService Create(HubServiceOptions options, IEnumerable<HubContractHandler> contractHandlers,
             EventHandler<MsgHandlerEventArgs> msgHandler = null)
         {
-            return new Service(_serviceProvider, contractHandlers, options, msgHandler);
+            return new HubService(_serviceProvider, contractHandlers, options, msgHandler);
         }
     }
 }
