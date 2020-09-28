@@ -18,3 +18,7 @@
 /Nats/src/Vls.Abp.Nats.Client/obj
 /Nats/src/Vls.Abp.Nats.Hubs/bin/Debug/netstandard2.0
 /Nats/src/Vls.Abp.Nats.Hubs/obj
+/Event Streaming Bus/.vs/Event Streaming Bus/v16
+/Event Streaming Bus/Vls.Abp.EventStreamingBus/obj
+/Stan/.vs/Stan
+/Stan/Vls.Abp.Stan/obj
