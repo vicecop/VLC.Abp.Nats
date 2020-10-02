@@ -1,8 +1,8 @@
 ﻿namespace Vls.Abp.Nats.Client
 {
-    public class ProxyOptions
+    public class NatsProxyOptions
     {
-        public static ProxyOptions Default => new ProxyOptions()
+        public static NatsProxyOptions Default => new NatsProxyOptions()
         {
             ServiceUid = "default"
         };

@@ -11,6 +11,7 @@ using Volo.Abp;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.Threading;
 
 namespace Vls.Abp.EventBus.Nats
@@ -21,8 +22,6 @@ namespace Vls.Abp.EventBus.Nats
     {
         private readonly INatsMqConnectionManager _connectionManager;
 
-        protected AbpDistributedEventBusOptions AbpDistributedEventBusOptions { get; }
-
         protected ConcurrentDictionary<Type, List<IEventHandlerFactory>> HandlerFactories { get; }
         protected ConcurrentDictionary<string, Type> EventTypes { get; }
 
@@ -32,9 +31,10 @@ namespace Vls.Abp.EventBus.Nats
         public NatsMqDistributedEventBus(
             INatsMqConnectionManager connectionManager,
             IServiceScopeFactory serviceScopeFactory,
+            ICurrentTenant currentTenant,
             INatsSerializer serializer,
             IOptions<AbpDistributedEventBusOptions> distributedEventBusOptions)
-            : base(serviceScopeFactory)
+            : base(serviceScopeFactory, currentTenant)
         {
             _connectionManager = connectionManager;
 
@@ -47,12 +47,12 @@ namespace Vls.Abp.EventBus.Nats
 
         public void Initialize()
         {
-            foreach(var eventName in EventTypes.Keys)
+            SubscribeHandlers(DistributedEventBusOptions.Handlers);
+
+            foreach (var eventName in EventTypes.Keys)
             {
                 var subscription = _connectionManager.Connection.SubscribeAsync(eventName, ProcessEventAsync);
             }
-
-            SubscribeHandlers(AbpDistributedEventBusOptions.Handlers);
         }
 
         private async void ProcessEventAsync(object sender, MsgHandlerEventArgs e)

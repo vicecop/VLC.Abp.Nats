@@ -18,14 +18,15 @@ namespace Vls.Abp.Nats.Hubs
     {
         public override void PostConfigureServices(ServiceConfigurationContext context)
         {
-            var applicationServices = context.ServiceProvider.GetServices<IApplicationService>();
+            var serviceProvider = context.Services.BuildServiceProvider();
+            var applicationServices = serviceProvider.GetServices<IApplicationService>();
             foreach (var app in applicationServices)
             {
                 var implementation = app.GetType();
                 var contracts = implementation.GetInterfaces().Where(i => typeof(IApplicationService).IsAssignableFrom(i)).ToArray();
 
-                var hubServiceBuilder = context.ServiceProvider.GetRequiredService<IHubServiceBuilder>();
-                var hubServiceOptions = context.ServiceProvider.GetRequiredService<IOptions<HubServiceOptions>>();
+                var hubServiceBuilder = serviceProvider.GetRequiredService<IHubServiceBuilder>();
+                var hubServiceOptions = serviceProvider.GetRequiredService<IOptions<HubServiceOptions>>();
 
                 foreach (var contract in contracts)
                 {

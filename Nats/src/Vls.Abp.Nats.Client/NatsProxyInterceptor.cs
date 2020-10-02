@@ -12,7 +12,7 @@ namespace Vls.Abp.Nats.Client
 {
     public sealed class NatsProxyInterceptor<TService> : AbpInterceptor, ITransientDependency
     {
-        private readonly ProxyOptions _options;
+        private readonly NatsProxyOptions _options;
         private readonly IServiceProvider _serviceProvider;
         private readonly NatsMqConnectionManager _connectionManager;
 
@@ -27,7 +27,7 @@ namespace Vls.Abp.Nats.Client
                 .First(m => m.Name == nameof(MakeRequestAndGetResultAsync) && m.IsGenericMethodDefinition);
         }
 
-        public NatsProxyInterceptor(IOptions<ProxyOptions> options, IServiceProvider serviceProvider, NatsMqConnectionManager connectionManager, INatsSerializer serializer)
+        public NatsProxyInterceptor(IOptions<NatsProxyOptions> options, IServiceProvider serviceProvider, NatsMqConnectionManager connectionManager, INatsSerializer serializer)
         {
             _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
@@ -71,7 +71,7 @@ namespace Vls.Abp.Nats.Client
             }
 
             var argBytes = _serializer.Serialize(invocation.Arguments);
-            var subject = $"{_options.ServiceUid}.{typeof(TService).Name}.{invocation.Method.Name}";
+            var subject = $"{typeof(TService).Name}.{invocation.Method.Name}";
 
             var response = await connection.RequestAsync(subject, argBytes, 1);
 

@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Options;
 using NATS.Client;
 using System;
+using Volo.Abp.DependencyInjection;
 
 namespace Vls.Abp.Nats
 {
-    public sealed class NatsMqConnectionManager : INatsMqConnectionManager, IDisposable
+    public sealed class NatsMqConnectionManager : INatsMqConnectionManager, ISingletonDependency, IDisposable
     {
         private readonly ConnectionFactory _connectionFactory;
         private readonly string _url;

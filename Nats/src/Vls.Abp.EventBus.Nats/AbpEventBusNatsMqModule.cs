@@ -13,7 +13,6 @@ namespace Vls.Abp.EventBus.Nats
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            base.ConfigureServices(context);
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)

@@ -22,3 +22,11 @@
 /Event Streaming Bus/Vls.Abp.EventStreamingBus/obj
 /Stan/.vs/Stan
 /Stan/Vls.Abp.Stan/obj
+/Nats/src/Vls.Abp.EventBus.Nats/bin/Debug/netstandard2.1
+/Nats/src/Vls.Abp.Nats/bin/Debug/netstandard2.1
+/Nats/src/Vls.Abp.Nats.Hubs/bin/Debug/netstandard2.1
+/Nats/test/Vls.Abp.Nats.Tests/obj
+/Nats/Vls.Abp.Nats.TestApp/bin/Debug/netcoreapp3.1
+/Nats/Vls.Abp.Nats.TestApp/obj
+/Nats/Vls.Abp.Nats.TestApplication/bin/Debug/netstandard2.0
+/Nats/Vls.Abp.Nats.TestApplication/obj

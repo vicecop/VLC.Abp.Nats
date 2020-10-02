@@ -53,14 +53,14 @@ namespace Vls.Abp.Nats.Hubs
                     try
                     {
                         var parameterTypes = method.GetParameters().Select(p => p.ParameterType).ToArray();
-                        var arguments = _serializer.Deserialize(args.Message.Data, parameterTypes);
+                        var arguments = _serializer.Deserialize(args.Message.Data, parameterTypes.Single());
 
                         object result;
 
                         using (var scope = _serviceProvider.CreateScope())
                         {
                             var contractImplementaion = _contractImplFactory.Invoke(scope.ServiceProvider, Array.Empty<object>());
-                            result = method.Invoke(contractImplementaion, arguments);
+                            result = method.Invoke(contractImplementaion, new object[] { arguments });
 
                             if (typeof(Task).IsAssignableFrom(method.ReturnType))
                             {
