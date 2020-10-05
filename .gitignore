@@ -30,3 +30,6 @@
 /Nats/Vls.Abp.Nats.TestApp/obj
 /Nats/Vls.Abp.Nats.TestApplication/bin/Debug/netstandard2.0
 /Nats/Vls.Abp.Nats.TestApplication/obj
+/Event Streaming Bus/.vs/PipelineBus
+/Event Streaming Bus/Vls.Abp.EventStreamingBus/bin/Debug
+/Stan/Vls.Abp.Stan/bin/Debug
