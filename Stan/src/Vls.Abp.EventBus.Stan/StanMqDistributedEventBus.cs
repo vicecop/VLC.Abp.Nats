@@ -18,15 +18,16 @@ namespace Vls.Abp.EventBus.Nats
 {
     [Dependency(ReplaceServices = true)]
     [ExposeServices(typeof(IDistributedEventBus), typeof(StanMqDistributedEventBus))]
-    public class StanMqDistributedEventBus : EventBusBase, IDistributedEventBus, ISingletonDependency
+    public sealed class StanMqDistributedEventBus : EventBusBase, IDistributedEventBus, IDisposable, ISingletonDependency
     {
         private readonly IStanConnectionPool _connectionManager;
 
-        protected ConcurrentDictionary<Type, List<IEventHandlerFactory>> HandlerFactories { get; }
-        protected ConcurrentDictionary<string, Type> EventTypes { get; }
+        private readonly ConcurrentDictionary<Type, List<IEventHandlerFactory>> _handlerFactories;
+        private readonly ConcurrentDictionary<string, Type> _eventTypes;
+        private readonly ConcurrentDictionary<string, IDisposable> _eventSubscriptions;
 
-        protected IStanSerializer Serializer { get; }
-        protected AbpDistributedEventBusOptions DistributedEventBusOptions { get; }
+        private readonly IStanSerializer _serializer;
+        private readonly AbpDistributedEventBusOptions _distributedEventBusOptions;
 
         public StanMqDistributedEventBus(
             IStanConnectionPool connectionManager,
@@ -38,33 +39,35 @@ namespace Vls.Abp.EventBus.Nats
         {
             _connectionManager = connectionManager;
 
-            Serializer = serializer;
-            DistributedEventBusOptions = distributedEventBusOptions.Value;
+            _serializer = serializer;
+            _distributedEventBusOptions = distributedEventBusOptions.Value;
 
-            HandlerFactories = new ConcurrentDictionary<Type, List<IEventHandlerFactory>>();
-            EventTypes = new ConcurrentDictionary<string, Type>();
+            _handlerFactories = new ConcurrentDictionary<Type, List<IEventHandlerFactory>>();
+            _eventTypes = new ConcurrentDictionary<string, Type>();
+            _eventSubscriptions = new ConcurrentDictionary<string, IDisposable>();
         }
 
         public void Initialize()
         {
-            SubscribeHandlers(DistributedEventBusOptions.Handlers);
+            SubscribeHandlers(_distributedEventBusOptions.Handlers);
 
-            foreach (var eventName in EventTypes.Keys)
+            foreach (var eventName in _eventTypes.Keys)
             {
                 var subscription = _connectionManager.GetConnection.Subscribe(eventName, ProcessEventAsync);
+                _eventSubscriptions.TryAdd(eventName, subscription);
             }
         }
 
         private async void ProcessEventAsync(object sender, StanMsgHandlerArgs e)
         {
             var eventName = e.Message.Subject;
-            var eventType = EventTypes.GetOrDefault(eventName);
+            var eventType = _eventTypes.GetOrDefault(eventName);
             if (eventType == null)
             {
                 return;
             }
 
-            var eventData = Serializer.Deserialize(e.Message.Data, eventType);
+            var eventData = _serializer.Deserialize(e.Message.Data, eventType);
 
             await TriggerHandlersAsync(eventType, eventData);
         }
@@ -72,7 +75,7 @@ namespace Vls.Abp.EventBus.Nats
         public override Task PublishAsync(Type eventType, object eventData)
         {
             var eventName = EventNameAttribute.GetNameOrDefault(eventType);
-            var body = Serializer.Serialize(eventData);
+            var body = _serializer.Serialize(eventData);
 
             _connectionManager.GetConnection.Publish(eventName, body);
 
@@ -150,12 +153,12 @@ namespace Vls.Abp.EventBus.Nats
 
         private List<IEventHandlerFactory> GetOrCreateHandlerFactories(Type eventType)
         {
-            return HandlerFactories.GetOrAdd(
+            return _handlerFactories.GetOrAdd(
                 eventType,
                 type =>
                 {
                     var eventName = EventNameAttribute.GetNameOrDefault(type);
-                    EventTypes[eventName] = type;
+                    _eventTypes[eventName] = type;
                     return new List<IEventHandlerFactory>();
                 }
             );
@@ -165,7 +168,7 @@ namespace Vls.Abp.EventBus.Nats
         {
             var handlerFactoryList = new List<EventTypeWithEventHandlerFactories>();
 
-            foreach (var handlerFactory in HandlerFactories.Where(hf => ShouldTriggerEventForHandler(eventType, hf.Key)))
+            foreach (var handlerFactory in _handlerFactories.Where(hf => ShouldTriggerEventForHandler(eventType, hf.Key)))
             {
                 handlerFactoryList.Add(new EventTypeWithEventHandlerFactories(handlerFactory.Key, handlerFactory.Value));
             }
@@ -189,6 +192,16 @@ namespace Vls.Abp.EventBus.Nats
             }
 
             return false;
+        }
+
+        public void Dispose()
+        {
+            foreach (var subscription in _eventSubscriptions.Values)
+            {
+                subscription.Dispose();
+            }
+
+            _eventSubscriptions.Clear();
         }
     }
 }
