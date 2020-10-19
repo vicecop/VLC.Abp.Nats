@@ -1,4 +1,4 @@
-﻿namespace Vls.Abp.Nats.TestApplication
+﻿namespace Vls.Abp.Examples.Store.Application
 {
 
     public class TestEventEto

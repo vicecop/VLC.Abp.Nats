@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Threading;
 
-namespace Vls.Abp.Nats
+namespace Vls.Abp.Examples
 {
     public interface INatsMqMessageConsumer
     {
@@ -78,7 +78,7 @@ namespace Vls.Abp.Nats
                     await callback(msgHandlerEventArgs);
                 }
 
-                channel.BasicAck(basicDeliverEventArgs.DeliveryTag, multiple: false);
+                //channel.BasicAck(basicDeliverEventArgs.DeliveryTag, multiple: false);
             }
             catch (Exception ex)
             {

@@ -2,23 +2,26 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Vls.Abp.EventBus.Nats;
-using Vls.Abp.Nats.Hubs;
-using Vls.Abp.Nats.TestApplication;
+using Vls.Abp.Examples.Client;
+using Vls.Abp.Examples.Hubs;
+using Vls.Abp.Examples.Store.Application;
+using Vls.Abp.Stan;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Autofac;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Modularity;
 
-namespace Vls.Abp.Nats.TestApp
+namespace Vls.Abp.Examples.Store.WebHost
 {
     [DependsOn(
-        typeof(TestApplicationModule),
+        typeof(StoreAppModule),
         typeof(AbpAspNetCoreMvcModule),
         typeof(AbpAutofacModule),
-        typeof(AbpEventBusNatsMqModule), 
-        typeof(AbpNatsHubsModule))]
-    public class TestAppModule : AbpModule
+        typeof(AbpEventBusStanMqModule), 
+        typeof(AbpNatsHubsModule),
+        typeof(AbpNatsClientModule))]
+    public class StoreWebHostModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
@@ -26,6 +29,19 @@ namespace Vls.Abp.Nats.TestApp
             {
                 opt.ConnectionTimeout = 1000;
                 opt.Url = "localhost:4222";
+            });
+
+            context.Services.Configure<AbpStanMqOptions>(opt =>
+            {
+                opt.ClientId = "test";
+                opt.ClusterId = "test-cluster";
+                opt.Url = "localhost:4222";
+                opt.ConnectionTimeout = 1000;
+            });
+
+            context.Services.Configure<HubServiceOptions>(opt =>
+            {
+                opt.ServiceUid = "test";
             });
         }
 

@@ -1,4 +1,4 @@
-﻿namespace Vls.Abp.Nats.Hubs
+﻿namespace Vls.Abp.Examples.Hubs
 {
     public class HubServiceOptions
     {

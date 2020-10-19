@@ -1,4 +1,4 @@
-﻿namespace Vls.Abp.Nats
+﻿namespace Vls.Abp.Examples
 {
     public class AbpNatsMqOptions
     {

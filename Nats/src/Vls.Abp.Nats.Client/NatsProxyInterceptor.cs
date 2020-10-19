@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.DynamicProxy;
 
-namespace Vls.Abp.Nats.Client
+namespace Vls.Abp.Examples.Client
 {
     public sealed class NatsProxyInterceptor<TService> : AbpInterceptor, ITransientDependency
     {

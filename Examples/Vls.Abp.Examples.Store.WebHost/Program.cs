@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Vls.Abp.Nats.TestApp
+namespace Vls.Abp.Examples.Store.WebHost
 {
     public class Program
     {

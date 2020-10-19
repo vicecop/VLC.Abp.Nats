@@ -2,10 +2,11 @@
 using NATS.Client;
 using System;
 using System.Collections.Generic;
+using Volo.Abp.DependencyInjection;
 
-namespace Vls.Abp.Nats.Hubs
+namespace Vls.Abp.Examples.Hubs
 {
-    public class HubServiceBuilder : IHubServiceBuilder
+    public class HubServiceBuilder : IHubServiceBuilder, ITransientDependency
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -59,7 +60,7 @@ namespace Vls.Abp.Nats.Hubs
 
         public HubService Build()
         {
-            return ActivatorUtilities.CreateInstance<HubService>(_serviceProvider, _contractHandlers, _eventHandler);
+            return ActivatorUtilities.CreateInstance<HubService>(_serviceProvider, _contractHandlers);
         }
     }
 }

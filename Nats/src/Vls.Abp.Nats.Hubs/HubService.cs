@@ -1,19 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using NATS.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Vls.Abp.Nats.Hubs
+namespace Vls.Abp.Examples.Hubs
 {
     public class HubService
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly ConnectionFactory _connectionFactory;
+        private readonly INatsConnectionPool _connectionPool;
         private readonly IEnumerable<HubContractHandler> _contractHandlers;
 
-        private IConnection _connection;
         private IEnumerable<IAsyncSubscription> _subscriptions;
 
         public string ServiceUid { get; }
@@ -21,22 +19,21 @@ namespace Vls.Abp.Nats.Hubs
 
         public EventHandler<MsgHandlerEventArgs> MsgHandler { get; }
 
-        internal HubService(IOptions<HubServiceOptions> options, IServiceProvider serviceProvider,
-            IEnumerable<HubContractHandler> contractHandlers, EventHandler<MsgHandlerEventArgs> eventHandler = null)
+        public HubService(IOptions<HubServiceOptions> options, IServiceProvider serviceProvider, INatsConnectionPool connectionPool, List<HubContractHandler> contractHandlers/*, EventHandler<MsgHandlerEventArgs> eventHandler = null*/)
         {
             _serviceProvider = serviceProvider;
-            _connectionFactory = _serviceProvider.GetRequiredService<ConnectionFactory>();
+            _connectionPool = connectionPool;
             _contractHandlers = contractHandlers ?? throw new ArgumentNullException(nameof(contractHandlers));
 
             ServiceUid = options?.Value?.ServiceUid ?? throw new ArgumentNullException(nameof(ServiceUid));
 
-            MsgHandler = eventHandler;
+            //MsgHandler = eventHandler;
         }
 
         public void Start()
         {
-            _connection = _connectionFactory.CreateConnection(ConnectionString);
-            _subscriptions = _contractHandlers.SelectMany(handler => handler.Subscribe(_connection));
+            var connection = _connectionPool.GetConnection;
+            _subscriptions = _contractHandlers.SelectMany(handler => handler.Subscribe(connection));
 
             foreach (var sub in _subscriptions)
                 sub.Start();
@@ -44,7 +41,7 @@ namespace Vls.Abp.Nats.Hubs
 
         public void Stop()
         {
-            _connection.Drain();
+            //_connection.Drain();
         }
     }
 }

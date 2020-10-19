@@ -3,7 +3,7 @@ using System.Text;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Json;
 
-namespace Vls.Abp.Nats
+namespace Vls.Abp.Examples
 {
     public class Utf8JsonNatsSerializer : INatsSerializer, ITransientDependency
     {

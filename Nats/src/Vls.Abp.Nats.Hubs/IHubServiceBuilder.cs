@@ -2,7 +2,7 @@
 using NATS.Client;
 using System;
 
-namespace Vls.Abp.Nats.Hubs
+namespace Vls.Abp.Examples.Hubs
 {
     public interface IHubServiceBuilder
     {

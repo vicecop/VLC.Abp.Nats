@@ -2,7 +2,7 @@
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 
-namespace Vls.Abp.Nats.TestApplication
+namespace Vls.Abp.Examples.Store.Application
 {
     public class TestEventHandler : IDistributedEventHandler<TestEventEto>, ITransientDependency
     {

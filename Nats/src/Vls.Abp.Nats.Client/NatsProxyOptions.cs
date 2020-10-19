@@ -1,4 +1,4 @@
-﻿namespace Vls.Abp.Nats.Client
+﻿namespace Vls.Abp.Examples.Client
 {
     public class NatsProxyOptions
     {

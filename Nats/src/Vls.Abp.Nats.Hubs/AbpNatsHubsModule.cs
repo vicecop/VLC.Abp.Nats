@@ -6,7 +6,7 @@ using Volo.Abp;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Modularity;
 
-namespace Vls.Abp.Nats.Hubs
+namespace Vls.Abp.Examples.Hubs
 {
     public class NatsHubOptions
     {

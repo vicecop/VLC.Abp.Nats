@@ -1,7 +1,7 @@
 ﻿using NATS.Client;
 using System;
 
-namespace Vls.Abp.Nats
+namespace Vls.Abp.Examples
 {
     public class NatsMqSubjectObserver : IObserver<Msg>
     {
