@@ -20,7 +20,7 @@ namespace Vls.Abp.EventBus.Nats
     [ExposeServices(typeof(IDistributedEventBus), typeof(NatsMqDistributedEventBus))]
     public class NatsMqDistributedEventBus : EventBusBase, IDistributedEventBus, ISingletonDependency
     {
-        private readonly INatsMqConnectionManager _connectionManager;
+        private readonly INatsConnectionPool _connectionManager;
 
         protected ConcurrentDictionary<Type, List<IEventHandlerFactory>> HandlerFactories { get; }
         protected ConcurrentDictionary<string, Type> EventTypes { get; }
@@ -29,7 +29,7 @@ namespace Vls.Abp.EventBus.Nats
         protected AbpDistributedEventBusOptions DistributedEventBusOptions { get; }
 
         public NatsMqDistributedEventBus(
-            INatsMqConnectionManager connectionManager,
+            INatsConnectionPool connectionManager,
             IServiceScopeFactory serviceScopeFactory,
             ICurrentTenant currentTenant,
             INatsSerializer serializer,
@@ -51,7 +51,7 @@ namespace Vls.Abp.EventBus.Nats
 
             foreach (var eventName in EventTypes.Keys)
             {
-                var subscription = _connectionManager.Connection.SubscribeAsync(eventName, ProcessEventAsync);
+                var subscription = _connectionManager.GetConnection.SubscribeAsync(eventName, ProcessEventAsync);
             }
         }
 
@@ -74,7 +74,7 @@ namespace Vls.Abp.EventBus.Nats
             var eventName = EventNameAttribute.GetNameOrDefault(eventType);
             var body = Serializer.Serialize(eventData);
 
-            _connectionManager.Connection.Publish(eventName, body);
+            _connectionManager.GetConnection.Publish(eventName, body);
 
             return Task.CompletedTask;
         }

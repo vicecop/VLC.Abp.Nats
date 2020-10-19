@@ -23,14 +23,14 @@ namespace Vls.Abp.Nats
         private readonly ILogger<NatsMqMessageConsumer> _logger;
         private readonly AbpTimer _timer;
 
-        protected INatsMqConnectionManager ConnectionManager { get; }
+        protected INatsConnectionPool ConnectionManager { get; }
         protected IExceptionNotifier ExceptionNotifier { get; }
 
         protected IConnection Connection { get; }
 
         protected ConcurrentBag<Func<MsgHandlerEventArgs, Task>> Callbacks { get; }
 
-        public NatsMqMessageConsumer(ILogger<NatsMqMessageConsumer> logger, INatsMqConnectionManager connectionManager, AbpTimer timer, IExceptionNotifier exceptionNotifier)
+        public NatsMqMessageConsumer(ILogger<NatsMqMessageConsumer> logger, INatsConnectionPool connectionManager, AbpTimer timer, IExceptionNotifier exceptionNotifier)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             ConnectionManager = connectionManager ?? throw new ArgumentNullException(nameof(connectionManager));

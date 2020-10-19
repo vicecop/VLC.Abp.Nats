@@ -14,7 +14,7 @@ namespace Vls.Abp.Nats.Client
     {
         private readonly NatsProxyOptions _options;
         private readonly IServiceProvider _serviceProvider;
-        private readonly NatsMqConnectionManager _connectionManager;
+        private readonly NatsConnectionPool _connectionManager;
 
         private readonly INatsSerializer _serializer;
 
@@ -27,7 +27,7 @@ namespace Vls.Abp.Nats.Client
                 .First(m => m.Name == nameof(MakeRequestAndGetResultAsync) && m.IsGenericMethodDefinition);
         }
 
-        public NatsProxyInterceptor(IOptions<NatsProxyOptions> options, IServiceProvider serviceProvider, NatsMqConnectionManager connectionManager, INatsSerializer serializer)
+        public NatsProxyInterceptor(IOptions<NatsProxyOptions> options, IServiceProvider serviceProvider, NatsConnectionPool connectionManager, INatsSerializer serializer)
         {
             _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
@@ -62,7 +62,7 @@ namespace Vls.Abp.Nats.Client
 
         private async Task<Msg> MakeRequestAsync(IAbpMethodInvocation invocation)
         {
-            var connection = _connectionManager.Connection;
+            var connection = _connectionManager.GetConnection;
 
             if (invocation.Method.Name == "Dispose")
             {

@@ -17,19 +17,12 @@ namespace Vls.Abp.Nats
             var configuration = context.Services.GetConfiguration();
             Configure<AbpNatsMqOptions>(configuration.GetSection("Nats"));
 
-            context.Services.AddSingleton<NatsMqConnectionManager>();
-        }
-
-        public override void OnApplicationInitialization(ApplicationInitializationContext context)
-        {
-            var connManager = context.ServiceProvider.GetRequiredService<NatsMqConnectionManager>();
-            connManager.Connect();
+            context.Services.AddSingleton<NatsConnectionPool>();
         }
 
         public override void OnApplicationShutdown(ApplicationShutdownContext context)
         {
-            var connManager = context.ServiceProvider.GetRequiredService<NatsMqConnectionManager>();
-            connManager.Disconnect();
+            var connManager = context.ServiceProvider.GetRequiredService<NatsConnectionPool>();
             connManager.Dispose();
         }
     }

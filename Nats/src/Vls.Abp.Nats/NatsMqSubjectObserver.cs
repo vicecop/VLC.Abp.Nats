@@ -5,9 +5,9 @@ namespace Vls.Abp.Nats
 {
     public class NatsMqSubjectObserver : IObserver<Msg>
     {
-        private readonly NatsMqConnectionManager _connectionManager;
+        private readonly NatsConnectionPool _connectionManager;
 
-        public NatsMqSubjectObserver(NatsMqConnectionManager connectionManager)
+        public NatsMqSubjectObserver(NatsConnectionPool connectionManager)
         {
             _connectionManager = connectionManager;
         }
