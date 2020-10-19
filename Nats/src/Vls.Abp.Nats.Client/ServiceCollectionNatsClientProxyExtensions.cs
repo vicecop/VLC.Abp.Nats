@@ -8,7 +8,7 @@ using Volo.Abp;
 using Volo.Abp.Castle.DynamicProxy;
 using Volo.Abp.Validation;
 
-namespace Vls.Abp.Examples.Client
+namespace Vls.Abp.Nats.Client
 {
     public static class ServiceCollectionNatsClientProxyExtensions
     {
@@ -17,7 +17,7 @@ namespace Vls.Abp.Examples.Client
         public static IServiceCollection AddNatsClientProxies(
             [NotNull] this IServiceCollection services,
             [NotNull] Assembly assembly,
-            [NotNull] string remoteServiceConfigurationName = "Default",
+            [NotNull] string remoteServiceConfigurationName = "default",
             bool asDefaultServices = true)
         {
             Check.NotNull(services, nameof(assembly));
@@ -38,7 +38,7 @@ namespace Vls.Abp.Examples.Client
 
         public static IServiceCollection AddNatsClientProxy<T>(
             [NotNull] this IServiceCollection services,
-            [NotNull] string remoteServiceConfigurationName = "Default",
+            [NotNull] string remoteServiceConfigurationName = "default",
             bool asDefaultService = true)
         {
             return services.AddNatsClientProxy(
@@ -51,7 +51,7 @@ namespace Vls.Abp.Examples.Client
         public static IServiceCollection AddNatsClientProxy(
             [NotNull] this IServiceCollection services,
             [NotNull] Type type,
-            [NotNull] string remoteServiceConfigurationName = "Default",
+            [NotNull] string remoteServiceConfigurationName = "default",
             bool asDefaultService = true)
         {
             Check.NotNull(services, nameof(services));

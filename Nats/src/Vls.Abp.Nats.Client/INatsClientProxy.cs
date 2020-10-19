@@ -1,4 +1,4 @@
-﻿namespace Vls.Abp.Examples.Client
+﻿namespace Vls.Abp.Nats.Client
 {
 
     public interface INatsClientProxy<out TRemoteService>

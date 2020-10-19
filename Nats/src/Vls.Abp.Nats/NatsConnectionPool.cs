@@ -3,7 +3,7 @@ using NATS.Client;
 using System;
 using Volo.Abp.DependencyInjection;
 
-namespace Vls.Abp.Examples
+namespace Vls.Abp.Nats
 {
     public sealed class NatsConnectionPool : INatsConnectionPool, ISingletonDependency, IDisposable
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Vls.Abp.Examples.Client
+namespace Vls.Abp.Nats.Client
 {
     public class AbpNatsClientOptions
     {

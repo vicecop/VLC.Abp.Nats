@@ -2,9 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Vls.Abp.EventBus.Nats;
-using Vls.Abp.Examples.Client;
-using Vls.Abp.Examples.Hubs;
 using Vls.Abp.Examples.Store.Application;
+using Vls.Abp.Nats;
+using Vls.Abp.Nats.Client;
+using Vls.Abp.Nats.Hubs;
 using Vls.Abp.Stan;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;

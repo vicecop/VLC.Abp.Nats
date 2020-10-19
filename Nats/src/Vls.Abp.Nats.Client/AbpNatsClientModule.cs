@@ -1,9 +1,9 @@
-﻿using Volo.Abp.Castle;
+﻿using Vls.Abp.Nats;
+using Volo.Abp.Castle;
 using Volo.Abp.Modularity;
 
-namespace Vls.Abp.Examples.Client
+namespace Vls.Abp.Nats.Client
 {
-
     [DependsOn(
         typeof(AbpNatsMqModule), 
         typeof(AbpCastleCoreModule))]

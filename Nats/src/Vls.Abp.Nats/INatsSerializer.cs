@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Vls.Abp.Examples
+namespace Vls.Abp.Nats
 {
     public interface INatsSerializer
     {

@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Threading;
 
-namespace Vls.Abp.Examples
+namespace Vls.Abp.Nats
 {
     public interface INatsMqMessageConsumer
     {

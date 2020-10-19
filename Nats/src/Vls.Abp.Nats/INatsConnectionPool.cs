@@ -1,6 +1,6 @@
 ﻿using NATS.Client;
 
-namespace Vls.Abp.Examples
+namespace Vls.Abp.Nats
 {
     public interface INatsConnectionPool
     {

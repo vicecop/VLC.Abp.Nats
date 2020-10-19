@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Vls.Abp.Examples.Hubs
+namespace Vls.Abp.Nats.Hubs
 {
     public class HubContractHandler
     {

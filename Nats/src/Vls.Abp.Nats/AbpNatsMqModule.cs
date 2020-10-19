@@ -4,7 +4,7 @@ using Volo.Abp.Json;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
 
-namespace Vls.Abp.Examples
+namespace Vls.Abp.Nats
 {
     [DependsOn(
         typeof(AbpJsonModule),

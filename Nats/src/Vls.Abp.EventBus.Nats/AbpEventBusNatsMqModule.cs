@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Vls.Abp.Examples;
+using Vls.Abp.Nats;
 using Volo.Abp;
 using Volo.Abp.EventBus;
 using Volo.Abp.Modularity;

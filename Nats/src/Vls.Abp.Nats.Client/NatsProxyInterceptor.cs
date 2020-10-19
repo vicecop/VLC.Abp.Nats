@@ -5,16 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Vls.Abp.Nats;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.DynamicProxy;
 
-namespace Vls.Abp.Examples.Client
+namespace Vls.Abp.Nats.Client
 {
     public sealed class NatsProxyInterceptor<TService> : AbpInterceptor, ITransientDependency
     {
         private readonly NatsProxyOptions _options;
         private readonly IServiceProvider _serviceProvider;
-        private readonly NatsConnectionPool _connectionManager;
+        private readonly INatsConnectionPool _connectionManager;
 
         private readonly INatsSerializer _serializer;
 
