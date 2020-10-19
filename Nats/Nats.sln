@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9D1A7881
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vls.Abp.Nats.Tests", "test\Vls.Abp.Nats.Tests\Vls.Abp.Nats.Tests.csproj", "{8C5BA80D-E784-41DE-A1E2-C7336E476FEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vls.Abp.Nats.TestApp", "Vls.Abp.Nats.TestApp\Vls.Abp.Nats.TestApp.csproj", "{9B3EEE7E-4AB5-4B9A-934C-EED28DFFF6A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vls.Abp.Nats.TestApp", "Vls.Abp.Nats.TestApp\Vls.Abp.Nats.TestApp.csproj", "{9B3EEE7E-4AB5-4B9A-934C-EED28DFFF6A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vls.Abp.Nats.TestApplication", "Vls.Abp.Nats.TestApplication\Vls.Abp.Nats.TestApplication.csproj", "{B93118D4-4D2D-4404-879A-55B0447A9BE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vls.Abp.Nats.TestApplication", "Vls.Abp.Nats.TestApplication\Vls.Abp.Nats.TestApplication.csproj", "{B93118D4-4D2D-4404-879A-55B0447A9BE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

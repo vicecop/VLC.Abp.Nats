@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NATS.Client" Version="0.10.1" />
-    <PackageReference Include="Volo.Abp.Json" Version="3.1.2" />
-    <PackageReference Include="Volo.Abp.Threading" Version="3.1.2" />
+    <PackageReference Include="NATS.Client" Version="0.11.0" />
+    <PackageReference Include="Volo.Abp.Json" Version="3.2.1" />
+    <PackageReference Include="Volo.Abp.Threading" Version="3.2.1" />
   </ItemGroup>
 
 </Project>
