@@ -6,7 +6,13 @@
     <Authors>Aleksey "ViceCop" Volodin</Authors>
     <Company>Vice Line Studio</Company>
     <RepositoryUrl>https://github.com/vicecop/Vls.Abp</RepositoryUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Product>Vls.Abp.Nats</Product>
+    <Description>Vls.Abp.Nats</Description>
+    <PackageId>Vls.Abp.Nats</PackageId>
+    <PackageReleaseNotes>Pool connection management improved</PackageReleaseNotes>
+    <Version>1.1.0</Version>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>

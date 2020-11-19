@@ -9,8 +9,13 @@
     <Authors>Aleksey "ViceCop" Volodin</Authors>
     <Company>Vice Line Studio</Company>
     <RepositoryUrl>https://github.com/vicecop/Vls.Abp</RepositoryUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.0</Version>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.2.0</Version>
+    <Product>Vls.Abp.Stan</Product>
+    <Description>Vls.Abp.Stan</Description>
+    <PackageId>Vls.Abp.Stan</PackageId>
+    <PackageReleaseNotes>Pool connection management improved</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>

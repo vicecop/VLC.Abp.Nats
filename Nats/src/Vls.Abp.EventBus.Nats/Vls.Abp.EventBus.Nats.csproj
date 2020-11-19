@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -6,7 +6,13 @@
     <Authors>Aleksey "ViceCop" Volodin</Authors>
     <Company>Vice Line Studio</Company>
     <RepositoryUrl>https://github.com/vicecop/Vls.Abp</RepositoryUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Product>Vls.Abp.EventBus.Nats</Product>
+    <Description>Vls.Abp.EventBus.Nats</Description>
+    <PackageId>Vls.Abp.EventBus.Nats</PackageId>
+    <PackageReleaseNotes>Pool connection management improved</PackageReleaseNotes>
+    <Version>1.1.0</Version>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
   </PropertyGroup>
   
   <ItemGroup>

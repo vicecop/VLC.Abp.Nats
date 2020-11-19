@@ -6,7 +6,13 @@
     <Authors>Aleksey "ViceCop" Volodin</Authors>
     <Company>Vice Line Studio</Company>
     <RepositoryUrl>https://github.com/vicecop/Vls.Abp</RepositoryUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Product>Vls.Abp.EventBus.Stan</Product>
+    <Description>Vls.Abp.EventBus.Stan</Description>
+    <PackageId>Vls.Abp.EventBus.Stan</PackageId>
+    <PackageReleaseNotes>Pool connection management improved</PackageReleaseNotes>
+    <Version>1.1.0</Version>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
   </PropertyGroup>
   
   <ItemGroup>
