@@ -1,34 +1,18 @@
 ﻿using Microsoft.Extensions.Options;
 using STAN.Client;
 using System;
+using System.Collections.Concurrent;
 using Volo.Abp.DependencyInjection;
 
 namespace Vls.Abp.Stan
 {
     public sealed class StanConnectionPool : IStanConnectionPool, ISingletonDependency
     {
-        private StanConnectionFactory _connectionFactory;
-        private AbpStanMqOptions _options;
+        private readonly AbpStanMqOptions _options;
+        private readonly ConcurrentDictionary<string, IStanConnection> _connections;
+        private readonly StanConnectionFactory _connectionFactory;
 
-        private IStanConnection _connection;
         private bool _disposedValue;
-
-        public IStanConnection GetConnection 
-        { 
-            get
-            {
-                if (_connection == null)
-                {
-                    var options = StanOptions.GetDefaultOptions();
-                    options.NatsURL = _options.Url;
-                    options.ConnectTimeout = _options.ConnectionTimeout;
-
-                    _connection = _connectionFactory.CreateConnection(_options.ClusterId, _options.ClientId, options);
-                }
-
-                return _connection;
-            }
-        }
 
         public StanConnectionPool(IOptions<AbpStanMqOptions> options)
         {
@@ -37,9 +21,23 @@ namespace Vls.Abp.Stan
                 throw new ArgumentNullException(nameof(options));
             }
 
+            _connections = new ConcurrentDictionary<string, IStanConnection>();
             _connectionFactory = new StanConnectionFactory();
             _options = options.Value;
         }
+
+        public IStanConnection GetConnection(string name)
+        {
+            return _connections.GetOrAdd(name, newName =>
+            {
+                var options = StanOptions.GetDefaultOptions();
+                options.NatsURL = _options.Url;
+                options.ConnectTimeout = _options.ConnectionTimeout;
+
+                return _connectionFactory.CreateConnection(_options.ClusterId, _options.ClientId, options);
+            });
+        }
+
 
         private void Dispose(bool disposing)
         {
@@ -47,8 +45,12 @@ namespace Vls.Abp.Stan
             {
                 if (disposing)
                 {
-                    _connection?.Dispose();
-                    _connection = null;
+                    foreach (var connection in _connections.Values)
+                    {
+                        connection.Dispose();
+                    }
+
+                    _connections.Clear();
                 }
 
                 _disposedValue = true;

@@ -5,6 +5,6 @@ namespace Vls.Abp.Stan
 {
     public interface IStanConnectionPool : IDisposable
     {
-        IStanConnection GetConnection { get; }
+        IStanConnection GetConnection(string name);
     }
 }

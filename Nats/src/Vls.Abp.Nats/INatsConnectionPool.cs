@@ -4,6 +4,6 @@ namespace Vls.Abp.Nats
 {
     public interface INatsConnectionPool
     {
-        IConnection GetConnection { get; }
+        IConnection GetConnection(string name);
     }
 }

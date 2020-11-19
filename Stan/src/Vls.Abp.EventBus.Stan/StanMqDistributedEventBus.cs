@@ -53,7 +53,8 @@ namespace Vls.Abp.EventBus.Nats
 
             foreach (var eventName in _eventTypes.Keys)
             {
-                var subscription = _connectionManager.GetConnection.Subscribe(eventName, ProcessEventAsync);
+                var subscription = _connectionManager.GetConnection(nameof(StanMqDistributedEventBus))
+                    .Subscribe(eventName, ProcessEventAsync);
                 _eventSubscriptions.TryAdd(eventName, subscription);
             }
         }
@@ -77,7 +78,7 @@ namespace Vls.Abp.EventBus.Nats
             var eventName = EventNameAttribute.GetNameOrDefault(eventType);
             var body = _serializer.Serialize(eventData);
 
-            _connectionManager.GetConnection.Publish(eventName, body);
+            _connectionManager.GetConnection(nameof(StanMqDistributedEventBus)).Publish(eventName, body);
 
             return Task.CompletedTask;
         }
