@@ -10,15 +10,15 @@
     <Product>Vls.Abp.EventBus.Nats</Product>
     <Description>Vls.Abp.EventBus.Nats</Description>
     <PackageId>Vls.Abp.EventBus.Nats</PackageId>
-    <PackageReleaseNotes>Pool connection management improved</PackageReleaseNotes>
-    <Version>1.1.0</Version>
+    <PackageReleaseNotes>Volo.Abp up to 3.3.1</PackageReleaseNotes>
+    <Version>1.1.1</Version>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.EventBus" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.Json" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.Threading" Version="3.2.1" />
+    <PackageReference Include="Volo.Abp.EventBus" Version="3.3.1" />
+    <PackageReference Include="Volo.Abp.Json" Version="3.3.1" />
+    <PackageReference Include="Volo.Abp.Threading" Version="3.3.1" />
   </ItemGroup>
   
   <ItemGroup>

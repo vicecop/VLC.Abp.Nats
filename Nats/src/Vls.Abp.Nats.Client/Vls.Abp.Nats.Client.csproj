@@ -11,10 +11,10 @@
   
   <ItemGroup>
     <PackageReference Include="NATS.Client" Version="0.11.0" />
-    <PackageReference Include="Volo.Abp.Castle.Core" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.Json" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.Threading" Version="3.2.1" />
-    <PackageReference Include="Volo.Abp.Validation" Version="3.2.1" />
+    <PackageReference Include="Volo.Abp.Castle.Core" Version="3.3.1" />
+    <PackageReference Include="Volo.Abp.Json" Version="3.3.1" />
+    <PackageReference Include="Volo.Abp.Threading" Version="3.3.1" />
+    <PackageReference Include="Volo.Abp.Validation" Version="3.3.1" />
   </ItemGroup>
   
   <ItemGroup>

@@ -10,17 +10,17 @@
     <Company>Vice Line Studio</Company>
     <RepositoryUrl>https://github.com/vicecop/Vls.Abp</RepositoryUrl>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Product>Vls.Abp.Stan</Product>
     <Description>Vls.Abp.Stan</Description>
     <PackageId>Vls.Abp.Stan</PackageId>
-    <PackageReleaseNotes>Pool connection management improved</PackageReleaseNotes>
+    <PackageReleaseNotes>Volo.Abp up to 3.3.1</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="STAN.Client" Version="0.3.0" />
-    <PackageReference Include="Volo.Abp.Json" Version="3.2.1" />
+    <PackageReference Include="Volo.Abp.Json" Version="3.3.1" />
   </ItemGroup>
 
   <ItemGroup>
