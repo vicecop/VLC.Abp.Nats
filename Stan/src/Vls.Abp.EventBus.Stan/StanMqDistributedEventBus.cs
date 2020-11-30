@@ -14,7 +14,7 @@ using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Threading;
 
-namespace Vls.Abp.EventBus.Nats
+namespace Vls.Abp.EventBus.Stan
 {
     [Dependency(ReplaceServices = true)]
     [ExposeServices(typeof(IDistributedEventBus), typeof(StanMqDistributedEventBus))]

@@ -10,8 +10,8 @@
     <Product>Vls.Abp.EventBus.Stan</Product>
     <Description>Vls.Abp.EventBus.Stan</Description>
     <PackageId>Vls.Abp.EventBus.Stan</PackageId>
-    <PackageReleaseNotes>Volo.Abp up to 3.3.1</PackageReleaseNotes>
-    <Version>1.1.1</Version>
+    <PackageReleaseNotes>Namespace fix</PackageReleaseNotes>
+    <Version>1.2.1</Version>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
   </PropertyGroup>
   

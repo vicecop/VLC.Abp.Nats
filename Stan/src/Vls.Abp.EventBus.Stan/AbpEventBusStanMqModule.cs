@@ -4,7 +4,7 @@ using Volo.Abp;
 using Volo.Abp.EventBus;
 using Volo.Abp.Modularity;
 
-namespace Vls.Abp.EventBus.Nats
+namespace Vls.Abp.EventBus.Stan
 {
     [DependsOn(
         typeof(AbpEventBusModule),
